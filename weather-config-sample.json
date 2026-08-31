@@ -1,0 +1,19 @@
+{
+  "defaultCity": {
+    "name": "Lima",
+    "latitude": -12.04318,
+    "longitude": -77.02824,
+    "country": "Perú",
+    "admin1": "Provincia de Lima"
+  },
+  "cities": [
+    {
+      "name": "Madrid",
+      "latitude": 40.4165,
+      "longitude": -3.70256,
+      "country": "España",
+      "admin1": "Comunidad Autónoma de Madrid"
+    }
+  ],
+  "unit": "celsius"
+}
