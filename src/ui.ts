@@ -7,7 +7,7 @@ const UNIT_LABEL: Record<Unit, string> = {
 };
 
 export function renderMenu(config: Config): void {
-  const cityCount = config.cities.length;
+  const cityCount = config.cities.length + (config.defaultCity ? 1 : 0);
   const unitLabel = UNIT_LABEL[config.unit];
 
   console.log(cyan("════════════════════════════════════════"));
