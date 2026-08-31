@@ -90,7 +90,9 @@ async function main(): Promise<void> {
           console.log(red("\n  Opción inválida.\n"));
           break;
         }
-        const removed = config.cities.splice(num - 1, 1)[0];
+        const removed = config.cities[num - 1];
+        if (!removed) break;
+        config.cities.splice(num - 1, 1);
         saveConfig(config);
         const loc = [removed.name, removed.admin1, removed.country].filter(Boolean).join(", ");
         console.log(green(`\n  ${loc} eliminada.\n`));
@@ -114,6 +116,7 @@ async function main(): Promise<void> {
           break;
         }
         const selected = all[num - 1];
+        if (!selected) break;
         if (config.defaultCity?.name === selected.name && config.defaultCity?.latitude === selected.latitude) {
           console.log(red("\n  Ya es la ciudad default.\n"));
           break;
