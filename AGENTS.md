@@ -12,15 +12,17 @@ Structure: `src/index.ts` is the entrypoint (menu loop + dispatch to actions). C
 - `src/types/` — shared types: `City.ts`, `Weather.ts` (Unit, CurrentWeather, DailyForecast), `MenuOption.ts`, `Config.ts` (CitiesData, Settings, defaults)
 - `src/api/` — `geocoding.ts`, `weather.ts` (Open-Meteo fetches)
 - `src/utils/` — `colors.ts`, `constants.ts` (URLs, unit labels, WMO codes, storage file names), `format.ts` (location/temperature/date formatters)
+- `tests/` — mirrors the `src/` layout (`utils/`, `storage/`, `api/`, `presentation/`, `actions/`, `integration/`), plus shared helpers in `tests/helpers/` (temp-cwd isolation, fixtures, `fetch`/`prompt`/console stubs)
 
 ## Commands
 
 - Run: `bun src/index.ts` (or `bun run dev` with `--watch`)
-- Build binary: `bun run build` → `dist/weather`
+- Build binary: `bun run build` → `dist/weather` (runs `typecheck` + `bun test` first; the compile step is skipped if either fails)
 - Typecheck: `bun run typecheck` (strict mode — run it after edits)
+- Test: `bun test` (or `bun run test:watch`); run a subset with `bun test tests/<folder>`
 - Install deps: `bun install`
 - Smoke test (non-interactive): `printf '9\n' | NO_COLOR=1 bun src/index.ts`
-- No test or lint scripts yet.
+- No lint script yet.
 
 ## Conventions
 
@@ -31,3 +33,4 @@ Structure: `src/index.ts` is the entrypoint (menu loop + dispatch to actions). C
 - **State**: actions load/save state per invocation via `src/storage/` — there is no shared config object; each storage module owns its JSON file.
 - `weather-cities.json` and `weather-settings.json` are runtime data in the project root (gitignored); `weather-cities-sample.json` and `weather-settings-sample.json` are the tracked samples — never commit the real ones.
 - Colors only via the `src/utils/colors.ts` helpers (cyan menu, yellow prompts/temperature, green ok, red errors); they respect `NO_COLOR`/non-TTY — don't hardcode ANSI anywhere else.
+- **Testing**: Bun's built-in runner (`bun:test`), no external test deps. Tests live in `tests/` mirroring the `src/` layout, with shared helpers in `tests/helpers/` (temp-cwd isolation, `fetch`/`prompt` stubs, ANSI-stripped console capture). Unit tests never touch the network or the real `weather-cities.json`/`weather-settings.json`; integration tests spawn the CLI as a subprocess (`NO_COLOR=1`, temp cwd, piped stdin). Test descriptions are in Spanish.
