@@ -24,6 +24,12 @@ Structure: `src/index.ts` is the entrypoint (menu loop + dispatch to actions). C
 - Smoke test (non-interactive): `printf '9\n' | NO_COLOR=1 bun src/index.ts`
 - No lint script yet.
 
+## CI / Releases
+
+- `.github/workflows/release.yml` runs on push to `master`: reads `version` from `package.json`; if tag `v<version>` doesn't exist yet, it builds the binary per platform (linux x64, macos arm64, windows x64) via `bun run build` (so typecheck + tests also gate the release) and publishes a GitHub release (`gh`) with the three binaries attached: `weather-linux-x64`, `weather-macos-arm64`, `weather-windows-x64.exe`.
+- To publish a new release: bump `version` in `package.json` and push to `master`. Pushes without a version bump skip the release jobs (idempotent).
+- Uses the auto-provisioned `GITHUB_TOKEN` with `permissions: contents: write` — no extra secrets required.
+
 ## Conventions
 
 - **Runtime**: Bun, not Node.js. Use `bun <file>`, `bun test`, `bun install`, `bunx`.

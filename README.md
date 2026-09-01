@@ -57,6 +57,16 @@ bun run build        # generar binario en dist/weather
 bun run typecheck    # verificación de tipos (modo estricto)
 ```
 
+## Versionado y releases
+
+La versión se define en el campo `version` de `package.json`. Al hacer push a `master`, el workflow de GitHub Actions (`.github/workflows/release.yml`):
+
+1. Comprueba si ya existe el tag `v<versión>`; si existe, se omite el release (idempotente).
+2. Compila el binario en linux x64, macOS (arm64) y Windows x64 mediante `bun run build` (que antes ejecuta typecheck y tests).
+3. Crea el tag `v<versión>` y un release en GitHub con los binarios adjuntos: `weather-linux-x64`, `weather-macos-arm64`, `weather-windows-x64.exe`.
+
+Para publicar una nueva versión: subir el campo `version` en `package.json` y hacer push a `master`.
+
 ## Datos locales
 
 Al ejecutarse, la app crea en la raíz del proyecto:
