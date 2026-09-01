@@ -3,6 +3,7 @@ import { geocodeCity, fetchWeather } from "./src/api.ts";
 import { renderMenu, printWeather, printCityList } from "./src/ui.ts";
 import { yellow, green, red } from "./src/colors.ts";
 import type { City, Config, Unit } from "./src/types.ts";
+import { allCities } from "./src/types.ts";
 
 async function main(): Promise<void> {
   let config = await loadConfig();
@@ -30,9 +31,7 @@ async function main(): Promise<void> {
       }
 
       case "2": {
-        const all = config.defaultCity
-          ? [config.defaultCity, ...config.cities]
-          : [...config.cities];
+        const all = allCities(config);
         if (all.length === 0) {
           console.log(red("\n  No hay ciudades registradas.\n"));
           break;
@@ -100,9 +99,7 @@ async function main(): Promise<void> {
       }
 
       case "5": {
-        const all = config.defaultCity
-          ? [config.defaultCity, ...config.cities]
-          : [...config.cities];
+        const all = allCities(config);
         if (all.length === 0) {
           console.log(red("\n  No hay ciudades registradas. Busque una ciudad primero (opción 3).\n"));
           break;

@@ -19,3 +19,7 @@ export const defaultConfig: Config = {
   cities: [],
   unit: "celsius",
 };
+
+export function allCities(config: Config): City[] {
+  return config.defaultCity ? [config.defaultCity, ...config.cities] : [...config.cities];
+}

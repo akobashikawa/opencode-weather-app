@@ -10,7 +10,7 @@ Structure: `index.ts` is the entrypoint (menu loop) and `src/` holds the modules
 - `src/storage.ts` — config load/save
 - `src/ui.ts` — menu and output rendering
 - `src/colors.ts` — ANSI color helpers
-- `src/types.ts` — `City`, `Config`, `Unit` types
+- `src/types.ts` — `City`, `Config`, `Unit` types and the `allCities()` helper
 
 ## Commands
 

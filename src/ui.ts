@@ -1,4 +1,5 @@
 import type { City, Config, Unit } from "./types.ts";
+import { allCities } from "./types.ts";
 import { cyan, yellow, green, red } from "./colors.ts";
 
 const UNIT_LABEL: Record<Unit, string> = {
@@ -7,7 +8,7 @@ const UNIT_LABEL: Record<Unit, string> = {
 };
 
 export function renderMenu(config: Config): void {
-  const cityCount = config.cities.length + (config.defaultCity ? 1 : 0);
+  const cityCount = allCities(config).length;
   const unitLabel = UNIT_LABEL[config.unit];
 
   console.log(cyan("════════════════════════════════════════"));
