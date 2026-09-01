@@ -2,15 +2,15 @@
 
 ## Project
 
-Interactive, menu-driven weather CLI built with Bun. Weather data comes from the Open-Meteo APIs (geocoding + current weather). Features: default city, multi-city list, °C/°F toggle, ANSI-colored output. README and comments are in Spanish.
+Interactive, menu-driven weather CLI built with Bun. Weather data comes from the Open-Meteo APIs (geocoding + current weather + 7-day forecast). Features: default city, multi-city list, 7-day forecast for the default city, °C/°F toggle, ANSI-colored output. README and comments are in Spanish.
 
 Structure: `index.ts` is the entrypoint (menu loop) and `src/` holds the modules:
 
-- `src/api.ts` — Open-Meteo fetches (geocoding + current weather)
+- `src/api.ts` — Open-Meteo fetches (geocoding, current weather, 7-day forecast)
 - `src/storage.ts` — config load/save
 - `src/ui.ts` — menu and output rendering
 - `src/colors.ts` — ANSI color helpers
-- `src/types.ts` — `City`, `Config`, `Unit` types and the `allCities()` helper
+- `src/types.ts` — `City`, `Config`, `DailyForecast`, `Unit` types and the `allCities()` helper
 
 ## Commands
 

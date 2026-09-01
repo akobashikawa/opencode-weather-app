@@ -1,4 +1,4 @@
-import type { City, Unit } from "./types.ts";
+import type { City, DailyForecast, Unit } from "./types.ts";
 
 const GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search";
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
@@ -32,4 +32,16 @@ export async function fetchWeather(
     current: { temperature_2m: number; time: string };
   };
   return data.current;
+}
+
+export async function fetchForecast(
+  city: City,
+  unit: Unit,
+): Promise<DailyForecast | null> {
+  const unitParam = unit === "celsius" ? "celsius" : "fahrenheit";
+  const url = `${FORECAST_URL}?latitude=${city.latitude}&longitude=${city.longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto&temperature_unit=${unitParam}`;
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  const data = await res.json() as { daily: DailyForecast; utc_offset_seconds: number };
+  return { ...data.daily, utc_offset_seconds: data.utc_offset_seconds };
 }

@@ -1,6 +1,6 @@
 import { loadConfig, saveConfig } from "./src/storage.ts";
-import { geocodeCity, fetchWeather } from "./src/api.ts";
-import { renderMenu, printWeather, printCityList } from "./src/ui.ts";
+import { geocodeCity, fetchWeather, fetchForecast } from "./src/api.ts";
+import { renderMenu, printWeather, printCityList, printForecast } from "./src/ui.ts";
 import { yellow, green, red } from "./src/colors.ts";
 import type { City, Config, Unit } from "./src/types.ts";
 import { allCities } from "./src/types.ts";
@@ -125,6 +125,22 @@ async function main(): Promise<void> {
         saveConfig(config);
         const loc = [selected.name, selected.admin1, selected.country].filter(Boolean).join(", ");
         console.log(green(`\n  Ciudad default: ${loc}\n`));
+        break;
+      }
+
+      case "6": {
+        if (!config.defaultCity) {
+          console.log(red("\n  No hay ciudad default configurada.\n"));
+          break;
+        }
+        const forecast = await fetchForecast(config.defaultCity, config.unit);
+        if (!forecast) {
+          console.log(red("\n  Error al obtener el pronóstico.\n"));
+          break;
+        }
+        console.log("");
+        printForecast(config.defaultCity, forecast, config.unit);
+        console.log("");
         break;
       }
 

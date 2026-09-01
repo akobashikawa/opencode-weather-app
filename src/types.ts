@@ -8,6 +8,14 @@ export interface City {
   admin1?: string;
 }
 
+export interface DailyForecast {
+  utc_offset_seconds?: number;
+  time: string[];
+  weather_code: number[];
+  temperature_2m_max: number[];
+  temperature_2m_min: number[];
+}
+
 export interface Config {
   defaultCity: City | null;
   cities: City[];

@@ -10,4 +10,5 @@
 - [ ] **Binario:** compila bien; revisar que `./weather` guarde datos en `~/.config/weather-cli/`.
 - [ ] **Escalabilidad:** ¿qué tan fácil será expandir con nuevas funcionalidades?
 - [ ] **Carga:** ¿hay estado de carga en las tareas asíncronas?
-- [ ] **7 days:** Agregar la posibilidad de obtener el pronóstico del clima para los próximos 7 días
+- [x] **7 days:** Pronóstico de 7 días para la ciudad default (opción de menú 6).
+  - Implementación: `fetchForecast()` en `src/api.ts` (Open-Meteo `daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto`), tipo `DailyForecast` en `src/types.ts`, y `printForecast()` en `src/ui.ts` con máx/mín en amarillo + descripción WMO en español (mapa `WMO_CODES`), invocada desde el case "6" de `index.ts`.
