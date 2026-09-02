@@ -5,6 +5,6 @@ import { UNIT_LABEL } from "../utils/constants.ts";
 export async function toggleUnit(): Promise<void> {
   const settings = await loadSettings();
   settings.unit = settings.unit === "celsius" ? "fahrenheit" : "celsius";
-  saveSettings(settings);
+  await saveSettings(settings);
   printSuccess(`Unidad: ${UNIT_LABEL[settings.unit]}`);
 }

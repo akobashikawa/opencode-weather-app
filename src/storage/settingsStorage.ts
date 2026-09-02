@@ -12,8 +12,8 @@ export async function loadSettings(): Promise<Settings> {
   return migrateFromLegacyConfig();
 }
 
-export function saveSettings(settings: Settings): void {
-  Bun.write(SETTINGS_FILE, JSON.stringify(settings, null, 2));
+export async function saveSettings(settings: Settings): Promise<void> {
+  await Bun.write(SETTINGS_FILE, JSON.stringify(settings, null, 2));
 }
 
 async function migrateFromLegacyConfig(): Promise<Settings> {
@@ -21,6 +21,6 @@ async function migrateFromLegacyConfig(): Promise<Settings> {
   if (!(await legacy.exists())) return { ...defaultSettings };
   const data = JSON.parse(await legacy.text()) as { unit?: Unit };
   const settings: Settings = { unit: data.unit ?? defaultSettings.unit };
-  saveSettings(settings);
+  await saveSettings(settings);
   return settings;
 }

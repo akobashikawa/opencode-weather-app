@@ -36,60 +36,23 @@ jobs:
             echo "should_release=true" >> "$GITHUB_OUTPUT"
           fi
 
-  build:
+  release:
     needs: check-version
     if: needs.check-version.outputs.should_release == 'true'
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            platform: linux-x64
-          # - os: macos-latest
-          #   platform: macos-arm64
-          # - os: windows-latest
-          #   platform: windows-x64
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
 
       - run: bun install --frozen-lockfile
 
       - run: bun run build
 
-      - name: Renombrar binario con sufijo de plataforma
-        shell: bash
-        env:
-          PLATFORM: ${{ matrix.platform }}
-        run: |
-          cd dist
-          if [ "$RUNNER_OS" = "Windows" ]; then
-            mv weather.exe "weather-${PLATFORM}.exe"
-          else
-            mv weather "weather-${PLATFORM}"
-          fi
-
-      - name: Subir binario
-        uses: actions/upload-artifact@v4
-        with:
-          name: weather-${{ matrix.platform }}
-          path: dist/weather-*
-          if-no-files-found: error
-
-  release:
-    needs: [check-version, build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Descargar binarios
-        uses: actions/download-artifact@v4
-        with:
-          pattern: weather-*
-          merge-multiple: true
-          path: dist
+      - name: Renombrar binario
+        run: mv dist/weather dist/weather-linux-x64
 
       - name: Crear tag y release
         env:
@@ -100,6 +63,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "v${VERSION}" -m "Release v${VERSION}"
           git push origin "v${VERSION}"
-          gh release create "v${VERSION}" dist/weather-* \
+          gh release create "v${VERSION}" dist/weather-linux-x64 \
             --title "v${VERSION}" \
             --generate-notes

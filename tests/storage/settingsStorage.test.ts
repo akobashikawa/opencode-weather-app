@@ -45,7 +45,7 @@ describe("migración desde weather-config.json", () => {
 
 describe("saveSettings", () => {
   it("guarda y recupera la unidad (roundtrip)", async () => {
-    saveSettings({ unit: "fahrenheit" });
+    await saveSettings({ unit: "fahrenheit" });
     expect(await loadSettings()).toEqual({ unit: "fahrenheit" });
   });
 });

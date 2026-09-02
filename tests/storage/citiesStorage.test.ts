@@ -71,7 +71,7 @@ describe("migración desde weather-config.json", () => {
 
 describe("saveCities", () => {
   it("guarda y recupera los datos (roundtrip)", async () => {
-    saveCities({ defaultCity: makeMadrid(), cities: [makeLima(), makeBogota()] });
+    await saveCities({ defaultCity: makeMadrid(), cities: [makeLima(), makeBogota()] });
     expect(await loadCities()).toEqual({ defaultCity: makeMadrid(), cities: [makeLima(), makeBogota()] });
   });
 });

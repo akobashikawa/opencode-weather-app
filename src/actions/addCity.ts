@@ -25,6 +25,6 @@ export async function addCity(): Promise<void> {
   };
   const cities = await loadCities();
   cities.cities.push(city);
-  saveCities(cities);
+  await saveCities(cities);
   console.log(green("  Ciudad agregada.\n"));
 }

@@ -21,6 +21,6 @@ export async function setDefaultCity(): Promise<void> {
   cities.cities = cities.cities.filter(
     (c) => !(c.name === selected.name && c.latitude === selected.latitude),
   );
-  saveCities(cities);
+  await saveCities(cities);
   printSuccess(`Ciudad default: ${formatLocation(selected)}`);
 }

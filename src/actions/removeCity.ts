@@ -13,6 +13,6 @@ export async function removeCity(): Promise<void> {
   if (!selection) return;
   const removed = cities.cities.splice(selection.index, 1)[0];
   if (!removed) return;
-  saveCities(cities);
+  await saveCities(cities);
   printSuccess(`${formatLocation(removed)} eliminada.`);
 }

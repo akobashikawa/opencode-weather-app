@@ -15,8 +15,8 @@ export async function loadCities(): Promise<CitiesData> {
   return migrateFromLegacyConfig();
 }
 
-export function saveCities(cities: CitiesData): void {
-  Bun.write(CITIES_FILE, JSON.stringify(cities, null, 2));
+export async function saveCities(cities: CitiesData): Promise<void> {
+  await Bun.write(CITIES_FILE, JSON.stringify(cities, null, 2));
 }
 
 export function allCities(cities: CitiesData): City[] {
@@ -31,6 +31,6 @@ async function migrateFromLegacyConfig(): Promise<CitiesData> {
     defaultCity: data.defaultCity ?? null,
     cities: data.cities ?? [],
   };
-  saveCities(cities);
+  await saveCities(cities);
   return cities;
 }
